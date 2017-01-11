@@ -9,7 +9,7 @@ void displayWheels(DisplayArgs* args)
 {
 	for(int i = 0 ; i < WHEEL_COUNT ; i++)
 	{
-
+		printf("%d ", *((args->wheelsValue)[i]);
 	}
 }
 
@@ -34,7 +34,6 @@ void work(DisplayArgs* args)
 			printf("Game started!\n\n");
 			displayWheels(args);
 		}
-
 
 		clock_gettime(CLOCK_MONOTONIC, &finish);
 		double seconds_elapsed = finish.tv_sec-start.tv_sec;
