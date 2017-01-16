@@ -1,5 +1,7 @@
-GCC=gcc -g -Wall -Wextra -std=gnu99
-LIBS=-lpthread -lrt
+GCC=gcc
+FLAGS=-g -Wall -Wextra -std=c99
+LIBS=-lpthread
+# Add -lrt when using linux
 
 all: jackpot
 
@@ -7,16 +9,16 @@ jackpot: jackpot.o handler.o display.o wheel.o
 	$(GCC) $^ -o $@ $(LIBS)
 
 jackpot.o: jackpot.c
-	$(GCC) $< -c
+	$(GCC) $(FLAGS) $< -c
 
 handler.o: handler.c handler.h
-	$(GCC) $< -c
+	$(GCC) $(FLAGS) $< -c
 
-display.o: display.h display.c
-	$(GCC) $< -c
+display.o: display.c display.h
+	$(GCC) $(FLAGS) $< -c
 
 wheel.o: wheel.c wheel.h
-	$(GCC) $< -c
+	$(GCC) $(FLAGS) $< -c
 
 clean:
 	rm *.o jackpot

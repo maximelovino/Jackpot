@@ -3,7 +3,9 @@
 #include <stdio.h>
 #include "Handler.h"
 #include "Wheel.h"
+#include "Display.h"
 #include "const.h"
+#include <time.h>
 
 int main(int argc, char const *argv[]) {
 	sigset_t mask;
@@ -19,10 +21,23 @@ int main(int argc, char const *argv[]) {
 	pthread_t wheelThreads[WHEEL_COUNT];
 
 	HandlerArgs handleArgs;
+	handleArgs.state = &st;
 	handleArgs.runningConds = conditions;
-	handleArgs.threadCnt = WHEEL_COUNT;
+	handleArgs.runningBools = runningWheels;
 	pthread_t handleThread;
-	pthread_create(&handleThread, NULL, handle, &handleArgs);
+	if (pthread_create(&handleThread, NULL, handle, &handleArgs) != 0) {
+		fprintf(stderr, "There was a problem creating a thread\n");
+		_exit(EXIT_FAILURE);
+	}
+
+	DisplayArgs dArgs;
+	dArgs.state = &st;
+	dArgs.wheelsValue = values;
+	pthread_t displayThread;
+	if (pthread_create(&displayThread, NULL, work, &dArgs) != 0) {
+		fprintf(stderr, "There was a problem creating a thread\n");
+		_exit(EXIT_FAILURE);
+	}
 
 	for (size_t i = 0; i < WHEEL_COUNT; i++) {
 		pthread_cond_init(&(conditions[i]), NULL);
@@ -31,13 +46,15 @@ int main(int argc, char const *argv[]) {
 		args->mutex = &mutex;
 		args->running = &(runningWheels[i]);
 		args->speed = speeds[i];
-		args->state = st;
+		args->state = &st;
 		args->value = &(values[i]);
-		if (pthread_create(&(wheelThreads[i]), NULL, turn, (void*) args) != 0) {
+		if (pthread_create(&(wheelThreads[i]), NULL, turn, args) != 0) {
 			fprintf(stderr, "There was a problem creating a thread\n");
 			_exit(EXIT_FAILURE);
 		};
 	}
+	pthread_join(displayThread, NULL);
+	pthread_join(handleThread, NULL);
 	for (size_t i = 0; i < WHEEL_COUNT; i++) {
 		pthread_join(wheelThreads[i], NULL);
 	}

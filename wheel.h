@@ -10,7 +10,7 @@ typedef struct wheel_st {
     pthread_cond_t* cond;
     pthread_mutex_t* mutex;
     unsigned int speed;
-    State state;
+    State* state;
     unsigned int* value;
 	int* running;
 } Wheel;

@@ -6,8 +6,9 @@
 #include "const.h"
 
 typedef struct HandlerArgs {
+	State* state;
 	pthread_cond_t* runningConds;
-	int threadCnt;
+	int* runningBools;
 } HandlerArgs;
 
 void* handle(void* args);

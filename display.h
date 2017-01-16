@@ -4,16 +4,17 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <unistd.h>
 #include "const.h"
 
 typedef struct DispalyArgs_t
 {
-	int** wheelsValue = NULL;
-	State* state = NULL;
+	unsigned int* wheelsValue;
+	State* state;
 } DisplayArgs;
 
 void initDisplay(DisplayArgs* args);
-void displayWheels(DisplayArgs* args);
-void work(DisplayArgs* args);
+void displayWheels(unsigned int* vals);
+void* work(void* arg);
 
 #endif /* end of include guard: _DISPLAY_H_ */
