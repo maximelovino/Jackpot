@@ -11,9 +11,9 @@ typedef struct DispalyArgs_t
 {
 	unsigned int* wheelsValue;
 	State* state;
+	unsigned int* money;
 } DisplayArgs;
 
-void initDisplay(DisplayArgs* args);
 void displayWheels(unsigned int* vals);
 void* work(void* arg);
 

@@ -1,6 +1,20 @@
 #include "handler.h"
 
-
+int checkVals(unsigned int* vals){
+	for (size_t i = 0; i < WHEEL_COUNT; i++) {
+		int cnt = 0;
+		unsigned int temp = vals[i];
+		for (size_t j = i+1; j < WHEEL_COUNT; j++) {
+			if (vals[j] == temp) {
+				cnt++;
+			}
+		}
+		if (cnt >= 1) {
+			return cnt;
+		}
+	}
+	return 0;
+}
 
 void* handle(void* args){
 	HandlerArgs* hArgs = (HandlerArgs*) args;
@@ -12,16 +26,25 @@ void* handle(void* args){
 	do {
 		if (currentWheel == WHEEL_COUNT) {
 			//Calculate score, pay up what's needed, and go in "show score" state and then after 5s in "waiting for coin"
+			int score = checkVals(hArgs->values);
+			if (score == 1) {
+				*hArgs->money = *hArgs->money / 2;
+			}
+			if (score == 2) {
+				*hArgs->money = 0;
+			}
 			*(hArgs->state) = DONE;
 			sleep(5);
 			*(hArgs->state) = WAITING;
 			currentWheel = 0;
+
 		}
 		sigwait(&mask, &sig);
 		if (sig == SIGTSTP) {
 			// notify the running at index of currentWheel
 			/* we inserted a coin */
 			*(hArgs->state) = RUNNING;
+			*(hArgs->money) += 1;
 			// We loop over WHEEL_COUNT and put all running to true, and then in the same loop we notify all conditions
 			for (size_t i = 0; i < WHEEL_COUNT; i++) {
 				(hArgs->runningBools)[i] = 1;

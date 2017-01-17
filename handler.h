@@ -10,6 +10,8 @@ typedef struct HandlerArgs {
 	State* state;
 	pthread_cond_t* runningConds;
 	int* runningBools;
+	unsigned int* values;
+	unsigned int* money;
 } HandlerArgs;
 
 void* handle(void* args);

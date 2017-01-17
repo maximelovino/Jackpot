@@ -1,10 +1,5 @@
 #include "display.h"
 
-void initDisplay(DisplayArgs* args)
-{
-
-}
-
 void displayWheels(unsigned int* vals)
 {
 	for(int i = 0 ; i < WHEEL_COUNT ; i++)
@@ -31,6 +26,7 @@ void* work(void* arg)
 		{
 			printf("Game finished!\n\n");
 			displayWheels(vals);
+			printf("%i coins in the machine\n", *args->money);
 		}
 		else
 		{
