@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <pthread.h>
+#include <unistd.h>
 #include "const.h"
 
 typedef struct HandlerArgs {

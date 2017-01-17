@@ -1,6 +1,7 @@
 #include "handler.h"
 
 
+
 void* handle(void* args){
 	HandlerArgs* hArgs = (HandlerArgs*) args;
 	sigset_t mask;
@@ -11,6 +12,10 @@ void* handle(void* args){
 	do {
 		if (currentWheel == WHEEL_COUNT) {
 			//Calculate score, pay up what's needed, and go in "show score" state and then after 5s in "waiting for coin"
+			*(hArgs->state) = DONE;
+			sleep(5);
+			*(hArgs->state) = WAITING;
+			currentWheel = 0;
 		}
 		sigwait(&mask, &sig);
 		if (sig == SIGTSTP) {
@@ -25,6 +30,8 @@ void* handle(void* args){
 		}
 		if (sig == SIGINT) {
 			/* we blocked a wheel */
+			(hArgs->runningBools)[currentWheel] = 0;
+			currentWheel++;
 		}
 	} while(sig != SIGQUIT);
 
