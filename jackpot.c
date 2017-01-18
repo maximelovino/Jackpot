@@ -77,6 +77,7 @@ int main(int argc, char const *argv[]) {
 			_exit(EXIT_FAILURE);
 		};
 	}
+	pthread_join(timerThread, NULL);
 	pthread_join(displayThread, NULL);
 	pthread_join(handleThread, NULL);
 	for (size_t i = 0; i < WHEEL_COUNT; i++) {
