@@ -12,6 +12,8 @@ typedef struct DispalyArgs_t
 	unsigned int* wheelsValue;
 	State* state;
 	unsigned int* money;
+	unsigned int* score;
+	unsigned int* lastGain;
 } DisplayArgs;
 
 void displayWheels(unsigned int* vals);

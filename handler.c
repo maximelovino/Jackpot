@@ -26,18 +26,19 @@ void* handle(void* args){
 	do {
 		if (currentWheel == WHEEL_COUNT) {
 			//Calculate score, pay up what's needed, and go in "show score" state and then after 5s in "waiting for coin"
-			int score = checkVals(hArgs->values);
-			if (score == 1) {
-				*hArgs->money = *hArgs->money / 2;
+			*hArgs->score = checkVals(hArgs->values);
+			if (*hArgs->score == 1) {
+				*hArgs->lastGain = *hArgs->money >=2 ? 2 : *hArgs->money;
+			}else if (*hArgs->score == 2) {
+				*hArgs->lastGain = *hArgs->money / 2;
+			}else{
+				*hArgs->lastGain = 0;
 			}
-			if (score == 2) {
-				*hArgs->money = 0;
-			}
+			*hArgs->money -= *hArgs->lastGain;
 			*(hArgs->state) = DONE;
 			sleep(5);
 			*(hArgs->state) = WAITING;
 			currentWheel = 0;
-
 		}
 		sigwait(&mask, &sig);
 		if (sig == SIGTSTP) {

@@ -12,6 +12,8 @@ typedef struct HandlerArgs {
 	int* runningBools;
 	unsigned int* values;
 	unsigned int* money;
+	unsigned int* score;
+	unsigned int* lastGain;
 } HandlerArgs;
 
 void* handle(void* args);

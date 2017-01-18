@@ -18,6 +18,7 @@ void* work(void* arg)
 	{
 		clock_gettime(CLOCK_MONOTONIC, &start);
 		printf("\e[2J");
+		printf("\e[1;1H");
 		if(*(args->state) == WAITING)
 		{
 			printf("Insert a coin to start the game...\n");
@@ -26,6 +27,20 @@ void* work(void* arg)
 		{
 			printf("Game finished!\n\n");
 			displayWheels(vals);
+			switch (*args->score) {
+				case 0:
+					printf("YOU LOST!\n");
+					break;
+				case 1:
+					printf("DOUBLE WIN\n");
+					break;
+				case 2:
+					printf("JACKPOT\n");
+					break;
+				default:
+					break;
+			}
+			printf("You won %d coins\n", *args->lastGain);
 			printf("%i coins in the machine\n", *args->money);
 		}
 		else
