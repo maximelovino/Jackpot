@@ -5,6 +5,10 @@
 #define WHEEL_COUNT 3
 #endif
 
+#ifndef WHEEL_SPEED
+#define WHEEL_SPEED {120, 60, 30}
+#endif
+
 typedef enum State {QUITTING, RUNNING, DONE, WAITING} State;
 
 

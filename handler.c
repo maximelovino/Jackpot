@@ -1,19 +1,17 @@
 #include "handler.h"
 
 int checkVals(unsigned int* vals){
+	int values[10] = {0};
 	for (size_t i = 0; i < WHEEL_COUNT; i++) {
-		int cnt = 0;
-		unsigned int temp = vals[i];
-		for (size_t j = i+1; j < WHEEL_COUNT; j++) {
-			if (vals[j] == temp) {
-				cnt++;
-			}
-		}
-		if (cnt >= 1) {
-			return cnt;
+		values[vals[i]]++;
+	}
+	int max = 0;
+	for (size_t i = 0; i < 10; i++) {
+		if (values[i]>max) {
+			max = values[i];
 		}
 	}
-	return 0;
+	return max == 1 ? 0 : max == WHEEL_COUNT ? 2 : 1;
 }
 
 void* handle(void* args){
@@ -61,11 +59,10 @@ void* handle(void* args){
 			sigCount = 0;
 		}
 		if (sig == SIGUSR1) {
+			sigCount++;
 			if (sigCount >= 3) {
 				raise(SIGINT);
 				sigCount = 0;
-			}else{
-				sigCount++;
 			}
 		}
 	} while(sig != SIGQUIT);

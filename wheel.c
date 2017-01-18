@@ -15,6 +15,6 @@ void* turn(void* arg) {
 			usleep(wheel->speed * 1000);
 		}
 	}
-	// TODO FREE
+	free(wheel);
 	return NULL;
 }

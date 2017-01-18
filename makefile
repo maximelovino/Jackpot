@@ -8,7 +8,7 @@ all: jackpot
 jackpot: jackpot.o handler.o display.o wheel.o timer.o
 	$(GCC) $^ -o $@ $(LIBS)
 
-%.o: %.c
+%.o: %.c const.h
 	$(GCC) $(FLAGS) $< -c
 
 clean:

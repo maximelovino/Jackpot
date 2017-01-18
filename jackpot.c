@@ -12,10 +12,10 @@ int main(int argc, char const *argv[]) {
 	sigset_t mask;
 	sigfillset(&mask);
 	pthread_sigmask(SIG_SETMASK, &mask, NULL);
-	int runningWheels[WHEEL_COUNT] = {0,0,0};
+	int runningWheels[WHEEL_COUNT] = {0};
 	pthread_cond_t conditions[WHEEL_COUNT];
-	unsigned int values[WHEEL_COUNT] = {0,0,0};
-	unsigned int speeds[WHEEL_COUNT] = {120,60,30};
+	unsigned int values[WHEEL_COUNT] = {0};
+	unsigned int speeds[WHEEL_COUNT] = WHEEL_SPEED;
 	unsigned int money = 12;
 	unsigned int score = 0;
 	unsigned int lastGain = 0;
@@ -62,6 +62,10 @@ int main(int argc, char const *argv[]) {
 	for (size_t i = 0; i < WHEEL_COUNT; i++) {
 		pthread_cond_init(&(conditions[i]), NULL);
 		Wheel* args = malloc(sizeof(Wheel));
+		if (!args) {
+			fprintf(stderr, "There was a problem with a malloc\n");
+			_exit(EXIT_FAILURE);
+		}
 		args->cond = &(conditions[i]);
 		args->mutex = &mutex;
 		args->running = &(runningWheels[i]);
