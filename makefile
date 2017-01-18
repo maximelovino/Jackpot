@@ -5,19 +5,10 @@ LIBS=-lpthread
 
 all: jackpot
 
-jackpot: jackpot.o handler.o display.o wheel.o
+jackpot: jackpot.o handler.o display.o wheel.o timer.o
 	$(GCC) $^ -o $@ $(LIBS)
 
-jackpot.o: jackpot.c
-	$(GCC) $(FLAGS) $< -c
-
-handler.o: handler.c handler.h
-	$(GCC) $(FLAGS) $< -c
-
-display.o: display.c display.h
-	$(GCC) $(FLAGS) $< -c
-
-wheel.o: wheel.c wheel.h
+%.o: %.c
 	$(GCC) $(FLAGS) $< -c
 
 clean:

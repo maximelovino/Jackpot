@@ -6,6 +6,8 @@
 #include <time.h>
 #include <unistd.h>
 #include "const.h"
+#include <signal.h>
+#include <pthread.h>
 
 typedef struct DispalyArgs_t
 {

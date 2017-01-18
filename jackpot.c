@@ -1,10 +1,11 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <stdio.h>
-#include "Handler.h"
-#include "Wheel.h"
-#include "Display.h"
+#include "handler.h"
+#include "wheel.h"
+#include "display.h"
 #include "const.h"
+#include "Timer.h"
 #include <time.h>
 
 int main(int argc, char const *argv[]) {
@@ -22,6 +23,14 @@ int main(int argc, char const *argv[]) {
 	pthread_mutex_init(&mutex, NULL);
 	State st = WAITING;
 	pthread_t wheelThreads[WHEEL_COUNT];
+	pthread_cond_t timerCond;
+
+	pthread_t timerThread;
+	TimerArgs timerArgs;
+	timerArgs.st = &st;
+	timerArgs.mutex = &mutex;
+	timerArgs.timerCond = &timerCond;
+	pthread_create(&timerThread, NULL, timeRun, &timerArgs);
 
 	HandlerArgs handleArgs;
 	handleArgs.state = &st;
@@ -31,6 +40,7 @@ int main(int argc, char const *argv[]) {
 	handleArgs.money = &money;
 	handleArgs.score = &score;
 	handleArgs.lastGain = &lastGain;
+	handleArgs.timerCond = &timerCond;
 	pthread_t handleThread;
 	if (pthread_create(&handleThread, NULL, handle, &handleArgs) != 0) {
 		fprintf(stderr, "There was a problem creating a thread\n");

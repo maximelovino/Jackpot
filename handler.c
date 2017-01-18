@@ -23,6 +23,7 @@ void* handle(void* args){
 	pthread_sigmask(SIG_SETMASK, &mask, NULL);
 	int sig;
 	int currentWheel = 0;
+	int sigCount = 0;
 	do {
 		if (currentWheel == WHEEL_COUNT) {
 			//Calculate score, pay up what's needed, and go in "show score" state and then after 5s in "waiting for coin"
@@ -45,6 +46,7 @@ void* handle(void* args){
 			// notify the running at index of currentWheel
 			/* we inserted a coin */
 			*(hArgs->state) = RUNNING;
+			pthread_cond_signal(hArgs->timerCond);
 			*(hArgs->money) += 1;
 			// We loop over WHEEL_COUNT and put all running to true, and then in the same loop we notify all conditions
 			for (size_t i = 0; i < WHEEL_COUNT; i++) {
@@ -56,6 +58,15 @@ void* handle(void* args){
 			/* we blocked a wheel */
 			(hArgs->runningBools)[currentWheel] = 0;
 			currentWheel++;
+			sigCount = 0;
+		}
+		if (sig == SIGUSR1) {
+			if (sigCount >= 3) {
+				raise(SIGINT);
+				sigCount = 0;
+			}else{
+				sigCount++;
+			}
 		}
 	} while(sig != SIGQUIT);
 
