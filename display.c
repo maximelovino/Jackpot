@@ -1,10 +1,9 @@
 #include "display.h"
-char syms[] = WHEELS_SYMBOLS;
 void displayWheels(unsigned int* vals)
 {
 	for(int i = 0 ; i < WHEEL_COUNT ; i++)
 	{
-		printf("%c ", syms[vals[i]]);
+		printf("%c ", WHEELS_SYMBOLS[vals[i]]);
 	}
 	printf("\n");
 }

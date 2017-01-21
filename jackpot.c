@@ -16,7 +16,7 @@ int main(int argc, char const *argv[]) {
 	pthread_cond_t conditions[WHEEL_COUNT];
 	unsigned int values[WHEEL_COUNT] = {0};
 	unsigned int speeds[WHEEL_COUNT] = WHEEL_SPEED;
-	unsigned int money = 12;
+	unsigned int money = INITIAL_MONEY;
 	unsigned int score = 0;
 	unsigned int lastGain = 0;
 	pthread_mutex_t mutex;

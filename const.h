@@ -9,9 +9,10 @@
 #define WHEEL_SPEED {120, 60, 30}
 #endif
 
-#ifndef WHEELS_SYMBOLS
-#define WHEELS_SYMBOLS {'#','$','%','+','-','=','?'};
+#ifndef INITIAL_MONEY
+#define INITIAL_MONEY 12
 #endif
 
+static const char WHEELS_SYMBOLS[] = {'#','$','%','+','-','=','?'};
 typedef enum State {QUITTING, RUNNING, DONE, WAITING} State;
 #endif /* end of include guard: _CONST_H_ */
