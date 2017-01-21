@@ -5,13 +5,14 @@ void* turn(void* arg) {
 	sigset_t mask;
 	sigfillset(&mask);
 	pthread_sigmask(SIG_SETMASK, &mask, NULL);
+	char wheels[] = WHEELS_SYMBOLS;
 	while (*wheel->state != QUITTING) {
 		pthread_mutex_lock(wheel->mutex);
 		pthread_cond_wait(wheel->cond, wheel->mutex);
 		pthread_mutex_unlock(wheel->mutex);
 		*wheel->value = 0;
 		while (*wheel->running) {
-			*wheel->value = (*wheel->value + 1) % 10;
+			*wheel->value = (*wheel->value + 1) % sizeof(wheels);
 			usleep(wheel->speed * 1000);
 		}
 	}

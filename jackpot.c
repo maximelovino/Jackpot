@@ -5,7 +5,7 @@
 #include "wheel.h"
 #include "display.h"
 #include "const.h"
-#include "Timer.h"
+#include "timer.h"
 #include <time.h>
 
 int main(int argc, char const *argv[]) {
