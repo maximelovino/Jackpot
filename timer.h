@@ -1,3 +1,12 @@
+/**
+ * @file timer.h
+ * @brief Header file that contains a timer definition
+ *
+ * @authors Maxime Lovino, Thomas Ibanez, Vincent Tournier
+ * @date January 22, 2017
+ * @version 1.0
+ */
+
 #ifndef _TIMER_H_
 #define _TIMER_H_
 #include <unistd.h>

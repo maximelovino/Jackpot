@@ -1,3 +1,12 @@
+/**
+ * @file wheel.h
+ * @brief Header file that contains our wheels definition
+ *
+ * @authors Maxime Lovino, Thomas Ibanez, Vincent Tournier
+ * @date January 22, 2017
+ * @version 1.0
+ */
+
 #ifndef _WHEEL_H_
 #define _WHEEL_H_
 #include <pthread.h>

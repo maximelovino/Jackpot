@@ -1,5 +1,19 @@
+/**
+ * @file timer.c
+ * @brief Source file that contains a timer implementation
+ *
+ * @authors Maxime Lovino, Thomas Ibanez, Vincent Tournier
+ * @date January 22, 2017
+ * @version 1.0
+ */
+
 #include "timer.h"
 
+/**
+ * Function that the timer thread will run
+ * @param args A pointer to the arguments of the thread
+ * @return NULL
+ */
 void* timeRun(void* args){
 	sigset_t mask;
 	sigfillset(&mask);

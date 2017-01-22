@@ -1,4 +1,18 @@
+/**
+ * @file display.c
+ * @brief Source file that contains our display implementation
+ *
+ * @authors Maxime Lovino, Thomas Ibanez, Vincent Tournier
+ * @date January 22, 2017
+ * @version 1.0
+ */
+
 #include "display.h"
+
+/**
+ * Function to display the value of the wheels, separated by spaces on a single line
+ * @param vals A pointer to the first element of the array of wheels values
+ */
 void displayWheels(unsigned int* vals)
 {
 	for(int i = 0 ; i < WHEEL_COUNT ; i++)
@@ -8,6 +22,11 @@ void displayWheels(unsigned int* vals)
 	printf("\n");
 }
 
+/**
+ * Work function for the thread display
+ * @param arg A pointer to the args for the thread display
+ * @return  NULL
+ */
 void* work(void* arg)
 {
 	sigset_t mask;
@@ -58,5 +77,6 @@ void* work(void* arg)
 			usleep((1.0/30.0 - seconds_elapsed)*1e6);
 		}
 	}
+	printf("Come again soon\n");
 	return NULL;
 }

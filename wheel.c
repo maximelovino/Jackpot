@@ -1,5 +1,19 @@
+/**
+ * @file wheel.c
+ * @brief Source file that contains our wheels implementation
+ *
+ * @authors Maxime Lovino, Thomas Ibanez, Vincent Tournier
+ * @date January 22, 2017
+ * @version 1.0
+ */
+
 #include "wheel.h"
 
+/**
+ * Function that each wheel thread will run
+ * @param arg A pointer to the arguments of the thread
+ * @return NULL
+ */
 void* turn(void* arg) {
 	Wheel* wheel = (Wheel*) arg;
 	sigset_t mask;

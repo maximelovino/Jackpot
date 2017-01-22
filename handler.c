@@ -1,5 +1,19 @@
+/**
+ * @file handler.c
+ * @brief Source file that contains our signal handler and game controller implementation
+ *
+ * @authors Maxime Lovino, Thomas Ibanez, Vincent Tournier
+ * @date January 22, 2017
+ * @version 1.0
+ */
+
 #include "handler.h"
 
+/**
+ * Function to check the result of a game
+ * @param vals A pointer to the first element of the array of wheels values
+ * @return 0 in case of no win, 1 in case of double win, 2 in case of jackpot
+ */
 int checkVals(unsigned int* vals){
 	int values[10] = {0};
 	for (size_t i = 0; i < WHEEL_COUNT; i++) {
@@ -14,6 +28,11 @@ int checkVals(unsigned int* vals){
 	return max == 1 ? 0 : max == WHEEL_COUNT ? 2 : 1;
 }
 
+/**
+ * Function that the handler thread will run
+ * @param args A pointer to the arguments of the thread
+ * @return NULL
+ */
 void* handle(void* args){
 	HandlerArgs* hArgs = (HandlerArgs*) args;
 	sigset_t mask;
@@ -24,7 +43,6 @@ void* handle(void* args){
 	int sigCount = 0;
 	do {
 		if (currentWheel == WHEEL_COUNT) {
-			//Calculate score, pay up what's needed, and go in "show score" state and then after 5s in "waiting for coin"
 			*hArgs->score = checkVals(hArgs->values);
 			if (*hArgs->score == 1) {
 				*hArgs->lastGain = *hArgs->money >=2 ? 2 : *hArgs->money;
@@ -41,7 +59,6 @@ void* handle(void* args){
 		}
 		sigwait(&mask, &sig);
 		if (sig == SIGTSTP) {
-
 			*(hArgs->state) = RUNNING;
 			pthread_cond_signal(hArgs->timerCond);
 			currentWheel = 0;
@@ -53,9 +70,11 @@ void* handle(void* args){
 			}
 		}
 		if (sig == SIGINT) {
-			(hArgs->runningBools)[currentWheel] = 0;
-			currentWheel++;
-			sigCount = 0;
+            if (*hArgs->state == RUNNING){
+                (hArgs->runningBools)[currentWheel] = 0;
+                currentWheel++;
+                sigCount = 0;
+            }
 		}
 		if (sig == SIGUSR1) {
 			if (*hArgs->state == RUNNING) {

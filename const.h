@@ -1,3 +1,12 @@
+/**
+ * @file const.h
+ * @brief A file to define constants used by our program
+ *
+ * @authors Maxime Lovino, Thomas Ibanez, Vincent Tournier
+ * @date January 22, 2017
+ * @version 1.0
+ */
+
 #ifndef _CONST_H_
 #define _CONST_H_
 

@@ -1,5 +1,14 @@
-#ifndef NUCLEAR_DISPLAY_SHELTER
-#define NUCLEAR_DISPLAY_SHELTER
+/**
+ * @file display.h
+ * @brief Header file that contains our display definition
+ *
+ * @authors Maxime Lovino, Thomas Ibanez, Vincent Tournier
+ * @date January 22, 2017
+ * @version 1.0
+ */
+
+#ifndef _DISPLAY_H_
+#define _DISPLAY_H_
 
 #include <stdlib.h>
 #include <stdio.h>

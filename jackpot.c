@@ -1,3 +1,11 @@
+/**
+ * @file jackpot.c
+ * @brief Source file that contains the main entry point of the program
+ *
+ * @authors Maxime Lovino, Thomas Ibanez, Vincent Tournier
+ * @date January 22, 2017
+ * @version 1.0
+ */
 #include <stdlib.h>
 #include <pthread.h>
 #include <stdio.h>
@@ -9,6 +17,10 @@
 #include "timer.h"
 #include <time.h>
 
+/**
+ * Main entry point of the program
+ * @return Exit code of 0 if everything went well, otherwise there was a problem
+ */
 int main() {
 	sigset_t mask;
 	sigfillset(&mask);
