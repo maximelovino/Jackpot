@@ -1,4 +1,4 @@
-#include "Timer.h"
+#include "timer.h"
 
 void* timeRun(void* args){
 	sigset_t mask;

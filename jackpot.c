@@ -4,11 +4,12 @@
 #include "handler.h"
 #include "wheel.h"
 #include "display.h"
+#include <signal.h>
 #include "const.h"
 #include "timer.h"
 #include <time.h>
 
-int main(int argc, char const *argv[]) {
+int main() {
 	sigset_t mask;
 	sigfillset(&mask);
 	pthread_sigmask(SIG_SETMASK, &mask, NULL);
