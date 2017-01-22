@@ -77,6 +77,8 @@ void* work(void* arg)
 			usleep((1.0/30.0 - seconds_elapsed)*1e6);
 		}
 	}
+    printf("\e[2J");
+    printf("\e[1;1H");
 	printf("Come again soon\n");
 	return NULL;
 }
