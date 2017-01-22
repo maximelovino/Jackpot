@@ -41,28 +41,29 @@ void* handle(void* args){
 		}
 		sigwait(&mask, &sig);
 		if (sig == SIGTSTP) {
-			// notify the running at index of currentWheel
-			/* we inserted a coin */
+
 			*(hArgs->state) = RUNNING;
 			pthread_cond_signal(hArgs->timerCond);
+			currentWheel = 0;
+			sigCount = 0;
 			*(hArgs->money) += 1;
-			// We loop over WHEEL_COUNT and put all running to true, and then in the same loop we notify all conditions
 			for (size_t i = 0; i < WHEEL_COUNT; i++) {
 				(hArgs->runningBools)[i] = 1;
 				pthread_cond_signal(&((hArgs->runningConds)[i]));
 			}
 		}
 		if (sig == SIGINT) {
-			/* we blocked a wheel */
 			(hArgs->runningBools)[currentWheel] = 0;
 			currentWheel++;
 			sigCount = 0;
 		}
 		if (sig == SIGUSR1) {
-			sigCount++;
-			if (sigCount >= 3) {
-				raise(SIGINT);
-				sigCount = 0;
+			if (*hArgs->state == RUNNING) {
+				sigCount++;
+				if (sigCount >= 3) {
+					raise(SIGINT);
+					sigCount = 0;
+				}
 			}
 		}
 	} while(sig != SIGQUIT);
