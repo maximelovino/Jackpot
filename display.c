@@ -53,8 +53,10 @@ void* work(void* arg)
 
 		clock_gettime(CLOCK_MONOTONIC, &finish);
 		double seconds_elapsed = finish.tv_sec-start.tv_sec;
-		seconds_elapsed += (finish.tv_nsec-start.tv_nsec)/1000000000.0;
-		usleep(33333);
+		seconds_elapsed += (finish.tv_nsec-start.tv_nsec)/(double)1e9;
+		if (seconds_elapsed < 1.0/30.0) {
+			usleep((1.0/30.0 - seconds_elapsed)*1e6);
+		}
 	}
 	return NULL;
 }
