@@ -1,6 +1,6 @@
 GCC=gcc
-FLAGS=-g -Wall -Wextra -std=c99
-LIBS=-lpthread
+FLAGS=-g -Wall -Wextra -std=gnu99
+LIBS=-lpthread -lrt
 # Add -lrt when using linux
 
 all: jackpot

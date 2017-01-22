@@ -69,6 +69,7 @@ void* handle(void* args){
 	} while(sig != SIGQUIT);
 
 	*(hArgs->state) = QUITTING;
+	pthread_cond_signal(hArgs->timerCond);
 	for (size_t i = 0; i < WHEEL_COUNT; i++) {
 		(hArgs->runningBools)[i] = 0;
 		pthread_cond_signal(&((hArgs->runningConds)[i]));

@@ -25,6 +25,7 @@ int main() {
 	State st = WAITING;
 	pthread_t wheelThreads[WHEEL_COUNT];
 	pthread_cond_t timerCond;
+	pthread_cond_init(&timerCond,NULL);
 
 	pthread_t timerThread;
 	TimerArgs timerArgs;
