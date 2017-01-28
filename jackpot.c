@@ -26,7 +26,6 @@ int main() {
 	sigfillset(&mask);
 	pthread_sigmask(SIG_SETMASK, &mask, NULL);
 	int runningWheels[WHEEL_COUNT] = {0};
-	pthread_cond_t conditions[WHEEL_COUNT];
 	unsigned int values[WHEEL_COUNT] = {0};
 	unsigned int speeds[WHEEL_COUNT] = WHEEL_SPEED;
 	unsigned int money = INITIAL_MONEY;
@@ -38,6 +37,8 @@ int main() {
 	pthread_t wheelThreads[WHEEL_COUNT];
 	pthread_cond_t timerCond;
 	pthread_cond_init(&timerCond,NULL);
+	pthread_cond_t wheelCond;
+	pthread_cond_init(&wheelCond, NULL);
 
 	pthread_t timerThread;
 	TimerArgs timerArgs;
@@ -48,7 +49,7 @@ int main() {
 
 	HandlerArgs handleArgs;
 	handleArgs.state = &st;
-	handleArgs.runningConds = conditions;
+	handleArgs.wheelCond = &wheelCond;
 	handleArgs.runningBools = runningWheels;
 	handleArgs.values = values;
 	handleArgs.money = &money;
@@ -74,13 +75,12 @@ int main() {
 	}
 
 	for (size_t i = 0; i < WHEEL_COUNT; i++) {
-		pthread_cond_init(&(conditions[i]), NULL);
 		Wheel* args = malloc(sizeof(Wheel));
 		if (!args) {
 			fprintf(stderr, "There was a problem with a malloc\n");
 			_exit(EXIT_FAILURE);
 		}
-		args->cond = &(conditions[i]);
+		args->cond = &wheelCond;
 		args->mutex = &mutex;
 		args->running = &(runningWheels[i]);
 		args->speed = speeds[i];

@@ -66,8 +66,8 @@ void* handle(void* args){
 			*(hArgs->money) += 1;
 			for (size_t i = 0; i < WHEEL_COUNT; i++) {
 				(hArgs->runningBools)[i] = 1;
-				pthread_cond_signal(&((hArgs->runningConds)[i]));
 			}
+			pthread_cond_broadcast(hArgs->wheelCond);
 		}
 		if (sig == SIGINT) {
             if (*hArgs->state == RUNNING){
@@ -91,8 +91,8 @@ void* handle(void* args){
 	pthread_cond_signal(hArgs->timerCond);
 	for (size_t i = 0; i < WHEEL_COUNT; i++) {
 		(hArgs->runningBools)[i] = 0;
-		pthread_cond_signal(&((hArgs->runningConds)[i]));
 	}
+	pthread_cond_broadcast(hArgs->wheelCond);
 
 	return NULL;
 }
