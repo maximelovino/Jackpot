@@ -86,5 +86,6 @@ int main() {
 	for (size_t i = 0; i < WHEEL_COUNT; i++) {
 		pthread_join(wheelThreads[i], NULL);
 	}
+	pthread_mutex_destroy(&mutex);
 	return 0;
 }
