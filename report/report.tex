@@ -8,6 +8,7 @@
 \usepackage{xcolor,graphicx}
 \definecolor{light-gray}{gray}{0.95}
 \usepackage{minted}
+\usepackage{pdfpages}
 \usemintedstyle{colorful}
 \setlength{\parindent}{0pt}
 \usepackage[left=2.5cm,top=2.5cm,right=2.5cm,bottom=2.5cm]{geometry}
@@ -21,7 +22,9 @@ Nous avons réalisé un petit programme de slot machine en utilisant l'architect
 	\item Un thread pour la gestion de l'affichage sur le terminal
 	\item Un thread pour la gestion du jeu et des signaux qui vont nous servir à jouer
 \end{itemize}
-Le thread main servira à lancer tous les autres threads, et nous avons également des constantes globales contenues dans le fichier \verb+const.h+
+Le thread main servira à lancer tous les autres threads, et nous avons également des constantes globales contenues dans le fichier \verb+const.h+ \\
+
+Vous pouvez trouver en dernière page de ce rapport un flowchart du déroulement du programme.
 \section{Logique du programme - Etats}
 Nous définissons dans \verb+const.h+ une énumération des différents états dans lequel peut se trouver notre programme, il s'agit des états suivants: \\
 \begin{itemize}
@@ -54,4 +57,5 @@ Lors du passage à l'état QUITTING, nous mettons tous les booléens à FALSE et
 Nous n'avons pas rencontré de bugs dans ce programme.
 \section{Conclusion}
 En conclusion, nous avons beaucoup apprécié travailler sur ce projet, qui était fortement intéressant et nous a bien aidés à comprendre l'utilité des signaux et des variables de condition. De façon générale, ces TPs étaient toujours fortement instructifs et un plaisir à réaliser, particulièrement parce qu'ils nous permettaient de travailler en groupe également.
+\includepdf[landscape=true]{flowchart.pdf}
 \end{document}
