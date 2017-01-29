@@ -15,9 +15,6 @@
  * @return NULL
  */
 void* timeRun(void* args){
-	sigset_t mask;
-	sigfillset(&mask);
-	pthread_sigmask(SIG_SETMASK, &mask, NULL);
 	TimerArgs* tArgs = (TimerArgs*) args;
 	while (*tArgs->st != QUITTING) {
 		pthread_mutex_lock(tArgs->mutex);

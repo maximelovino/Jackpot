@@ -37,7 +37,6 @@ void* handle(void* args){
 	HandlerArgs* hArgs = (HandlerArgs*) args;
 	sigset_t mask;
 	sigfillset(&mask);
-	pthread_sigmask(SIG_SETMASK, &mask, NULL);
 	int sig;
 	int currentWheel = 0;
 	int sigCount = 0;

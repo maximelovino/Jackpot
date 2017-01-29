@@ -29,9 +29,6 @@ void displayWheels(unsigned int* vals)
  */
 void* work(void* arg)
 {
-	sigset_t mask;
-	sigfillset(&mask);
-	pthread_sigmask(SIG_SETMASK, &mask, NULL);
 	DisplayArgs* args = (DisplayArgs*) arg;
 	unsigned int* vals = args->wheelsValue;
 	struct timespec start, finish;

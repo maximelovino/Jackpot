@@ -16,9 +16,6 @@
  */
 void* turn(void* arg) {
 	Wheel* wheel = (Wheel*) arg;
-	sigset_t mask;
-	sigfillset(&mask);
-	pthread_sigmask(SIG_SETMASK, &mask, NULL);
 	struct timespec start, finish;
 	while (*wheel->state != QUITTING) {
 		pthread_mutex_lock(wheel->mutex);
