@@ -5,7 +5,7 @@ LIBS=-lpthread -lrt
 
 all: jackpot
 
-jackpot: jackpot.o handler.o display.o wheel.o timer.o
+jackpot: jackpot.o handler.o display.o wheel.o
 	$(GCC) $^ -o $@ $(LIBS)
 
 %.o: %.c const.h
