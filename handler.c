@@ -39,9 +39,9 @@ void* handle(void* args){
 	sigfillset(&mask);
 	int sig;
 	int currentWheel = 0;
-	int sigCount = 0;
 	do {
 		if (currentWheel == WHEEL_COUNT) {
+			alarm(0);
 			*hArgs->score = checkVals(hArgs->values);
 			if (*hArgs->score == 1) {
 				*hArgs->lastGain = *hArgs->money >=2 ? 2 : *hArgs->money;
@@ -59,35 +59,24 @@ void* handle(void* args){
 		sigwait(&mask, &sig);
 		if (sig == SIGTSTP) {
 			*(hArgs->state) = RUNNING;
-			pthread_cond_signal(hArgs->timerCond);
 			currentWheel = 0;
-			sigCount = 0;
 			*(hArgs->money) += 1;
 			for (size_t i = 0; i < WHEEL_COUNT; i++) {
 				(hArgs->runningBools)[i] = 1;
 			}
 			pthread_cond_broadcast(hArgs->wheelCond);
+			alarm(3);
 		}
-		if (sig == SIGINT) {
+		if (sig == SIGINT || sig == SIGALRM) {
             if (*hArgs->state == RUNNING){
                 (hArgs->runningBools)[currentWheel] = 0;
                 currentWheel++;
-                sigCount = 0;
+				alarm(3);
             }
-		}
-		if (sig == SIGUSR1) {
-			if (*hArgs->state == RUNNING) {
-				sigCount++;
-				if (sigCount >= 3) {
-					raise(SIGINT);
-					sigCount = 0;
-				}
-			}
 		}
 	} while(sig != SIGQUIT);
 
 	*(hArgs->state) = QUITTING;
-	pthread_cond_signal(hArgs->timerCond);
 	for (size_t i = 0; i < WHEEL_COUNT; i++) {
 		(hArgs->runningBools)[i] = 0;
 	}

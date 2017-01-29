@@ -14,8 +14,6 @@
 #include "display.h"
 #include <signal.h>
 #include "const.h"
-#include "timer.h"
-#include <time.h>
 
 /**
  * Main entry point of the program
@@ -40,13 +38,6 @@ int main() {
 	pthread_cond_t wheelCond;
 	pthread_cond_init(&wheelCond, NULL);
 
-	pthread_t timerThread;
-	TimerArgs timerArgs;
-	timerArgs.st = &st;
-	timerArgs.mutex = &mutex;
-	timerArgs.timerCond = &timerCond;
-	pthread_create(&timerThread, NULL, timeRun, &timerArgs);
-
 	HandlerArgs handleArgs;
 	handleArgs.state = &st;
 	handleArgs.wheelCond = &wheelCond;
@@ -55,7 +46,6 @@ int main() {
 	handleArgs.money = &money;
 	handleArgs.score = &score;
 	handleArgs.lastGain = &lastGain;
-	handleArgs.timerCond = &timerCond;
 	pthread_t handleThread;
 	if (pthread_create(&handleThread, NULL, handle, &handleArgs) != 0) {
 		fprintf(stderr, "There was a problem creating a thread\n");
@@ -91,7 +81,6 @@ int main() {
 			_exit(EXIT_FAILURE);
 		};
 	}
-	pthread_join(timerThread, NULL);
 	pthread_join(displayThread, NULL);
 	pthread_join(handleThread, NULL);
 	for (size_t i = 0; i < WHEEL_COUNT; i++) {

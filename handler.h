@@ -18,7 +18,6 @@
 typedef struct HandlerArgs {
 	State* state;
 	pthread_cond_t* wheelCond;
-	pthread_cond_t* timerCond;
 	int* runningBools;
 	unsigned int* values;
 	unsigned int* money;
